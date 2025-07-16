@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>คู่มือคำสั่งโค้ด: ระบบจัดการสินค้าและคำสั่งซื้อ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+        }
+
+        #sidebar {
+            width: 250px;
+            flex-shrink: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-right: 1px solid #dee2e6;
+            height: 100vh;
+            overflow-y: auto;
+            position: sticky;
+            top: 0;
+        }
+
+        #content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        .code-section {
+            margin-bottom: 40px;
+        }
+
+        .code-box {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-top: 15px;
+            overflow-x: auto;
+        }
+
+        pre {
+            margin: 0;
+        }
+
+        code {
+            font-family: Consolas, monospace;
+            font-size: 0.9em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .sidebar-link {
+            display: block;
+            padding: 5px 0;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .sidebar-link:hover {
+            text-decoration: underline;
+        }
+
+        .sidebar-heading {
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="sidebar">
+        <h3>สารบัญ</h3>
+        <a href="#intro" class="sidebar-link">บทนำ</a>
+        <div class="sidebar-heading">1. app.py</div>
+        <a href="#app-py-code" class="sidebar-link">- โค้ด app.py</a>
+        <a href="#app-py-table" class="sidebar-link">- คำอธิบาย app.py</a>
+
+        <div class="sidebar-heading">2. sql.txt</div>
+        <a href="#sql-txt-code" class="sidebar-link">- โค้ด sql.txt</a>
+        <a href="#sql-txt-table" class="sidebar-link">- คำอธิบาย sql.txt</a>
+
+        <div class="sidebar-heading">3. ไฟล์ HTML (Templates)</div>
+        <a href="#html-intro" class="sidebar-link">- บทนำไฟล์ HTML</a>
+
+        <div class="sidebar-heading">3.1 login.html</div>
+        <a href="#login-html-code" class="sidebar-link">- โค้ด login.html</a>
+        <a href="#login-html-table" class="sidebar-link">- คำอธิบาย login.html</a>
+
+        <div class="sidebar-heading">3.2 dashboard.html</div>
+        <a href="#dashboard-html-code" class="sidebar-link">- โค้ด dashboard.html</a>
+        <a href="#dashboard-html-table" class="sidebar-link">- คำอธิบาย dashboard.html</a>
+
+        <div class="sidebar-heading">3.3 products_dashboard.html</div>
+        <a href="#products-dashboard-html-code" class="sidebar-link">- โค้ด products_dashboard.html</a>
+        <a href="#products-dashboard-html-table" class="sidebar-link">- คำอธิบาย products_dashboard.html</a>
+
+        <div class="sidebar-heading">3.4 form.html</div>
+        <a href="#form-html-code" class="sidebar-link">- โค้ด form.html</a>
+        <a href="#form-html-table" class="sidebar-link">- คำอธิบาย form.html</a>
+
+        <div class="sidebar-heading">3.5 add_product.html</div>
+        <a href="#add-product-html-code" class="sidebar-link">- โค้ด add_product.html</a>
+        <a href="#add-product-html-table" class="sidebar-link">- คำอธิบาย add_product.html</a>
+
+        <div class="sidebar-heading">3.6 edit.html</div>
+        <a href="#edit-html-code" class="sidebar-link">- โค้ด edit.html</a>
+        <a href="#edit-html-table" class="sidebar-link">- คำอธิบาย edit.html</a>
+
+        <div class="sidebar-heading">3.7 edit_product.html</div>
+        <a href="#edit-product-html-code" class="sidebar-link">- โค้ด edit_product.html</a>
+        <a href="#edit-product-html-table" class="sidebar-link">- คำอธิบาย edit_product.html</a>
+
+        <div class="sidebar-heading">3.8 pdf_template.html</div>
+        <a href="#pdf-template-html-code" class="sidebar-link">- โค้ด pdf_template.html</a>
+        <a href="#pdf-template-html-table" class="sidebar-link">- คำอธิบาย pdf_template.html</a>
+    </div>
+
+    <div id="content">
+        <h1 id="intro" class="mb-4">คู่มือคำสั่งโค้ด: ระบบจัดการสินค้าและคำสั่งซื้อ</h1>
+        <p>คู่มือนี้จะช่วยให้คุณเข้าใจหน้าที่ของแต่ละส่วนของโค้ดในโปรเจกต์ของคุณ โดยเปรียบเทียบคำสั่งโค้ดเสมือนเป็นภาษาอังกฤษ และให้คำอธิบายเป็นภาษาไทย</p>
+
+        <hr>
+
+        <div class="code-section" id="app-py">
+            <h2 id="app-py-heading">1. `app.py` (ไฟล์หลักของแอปพลิเคชัน Flask)</h2>
+            <p>ไฟล์นี้คือหัวใจของระบบ ทำหน้าที่จัดการเส้นทาง (routes), การเชื่อมต่อฐานข้อมูล, การตรวจสอบสิทธิ์ และการทำงานหลักทั้งหมดของเว็บแอปพลิเคชัน</p>
+
+            <h3 id="app-py-code">โค้ด `app.py`</h3>
+            <div class="code-box">
+                <pre><code>
+from flask import Flask, render_template, request, redirect, url_for, session, Response, make_response
+from xhtml2pdf import pisa
+import mysql.connector
+import csv
+from io import StringIO
+from io import BytesIO
+
+# Initialize the Flask application
+app = Flask(__name__)
+# Set a secret key for session management. Replace with a strong, random key in production.
+app.secret_key = 'your-secret-key'
+
+# Function to establish a database connection
+def get_db_connection():
+    """
+    Establishes and returns a connection to the MySQL database.
+    Configuration: host='localhost', user='root', password='', database='test2'.
+    """
+    # Changed database to "project1" as per the user's latest provided code
+    return mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="project_bin"
+    )
+
+# ---------------- LOGIN ROUTE ----------------
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    """
+    Handles user login.
+    - GET: Renders the login form (login.html).
+    - POST: Authenticates the user. If username is 'admin' and password is '1234',
+            sets 'admin' in session and redirects to dashboard. Otherwise, shows failure message.
+    """
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        if username == "admin" and password == "1234":
+            session["admin"] = True
+            return redirect(url_for("dashboard"))
+        else:
+            return "Login Failed. Invalid credentials." # Simple failure message
+    return render_template("login.html")
+
+# ---------------- LOGOUT ROUTE ----------------
+@app.route("/logout")
+def logout():
+    """
+    Handles user logout.
+    - Clears the 'admin' session and redirects to the login page.
+    """
+    session.pop("admin", None)
+    return redirect(url_for("login"))
+
+# ---------------- ROOT ROUTE ----------------
+@app.route("/")
+def root():
+    """
+    Redirects to the dashboard if logged in, otherwise redirects to login.
+    """
+    if not session.get("admin"):
+        return redirect(url_for("login"))
+    return redirect(url_for("dashboard"))
+
+# ---------------- DASHBOARD ROUTES (ORDER ITEMS) ----------------
+@app.route("/dashboard", methods=["GET", "POST"])
+def dashboard():
+    """
+    Displays the dashboard with order items.
+    - Requires admin session. If not logged in, redirects to login.
+    - Supports searching by Order_ID or product name.
+    """
+    if not session.get("admin"):
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True) # Return rows as dictionaries
+
+    search_query = ""
+    if request.method == "POST":
+        search_query = request.form.get("search", "")
+
+    if search_query:
+        # Adjusted SQL query to search across Order_ID and product name
+        sql_query = """
+            SELECT oi.Order_ID, oi.Product_ID, p.name, p.bin_number, oi.quantity, oi.created_at
+            FROM order_items oi
+            JOIN products p ON oi.Product_ID = p.Product_ID
+            WHERE oi.Order_ID LIKE %s OR p.name LIKE %s
+            ORDER BY oi.created_at DESC
+        """
+        cursor.execute(sql_query, (f"%{search_query}%", f"%{search_query}%"))
+    else:
+        # Original query to fetch all order details
+        sql_query = """
+            SELECT oi.Order_ID, oi.Product_ID, p.name, p.bin_number, oi.quantity, oi.created_at
+            FROM order_items oi
+            JOIN products p ON oi.Product_ID = p.Product_ID
+            ORDER BY oi.created_at DESC
+        """
+        cursor.execute(sql_query)
+
+    order_details = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template("dashboard.html", order_details=order_details, search=search_query)
+
+# ---------------- ADD ORDER ITEM ROUTE ----------------
+@app.route("/add", methods=["GET", "POST"])
+def add_order_item():
+    """
+    Handles adding a new order item to the database.
+    - Requires admin session. If not logged in, redirects to login.
+    - GET: Renders the form (form.html).
+    - POST: Inserts new order item data.
+    """
+    if not session.get("admin"):
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+        order_id = request.form["order_id"]
+        product_id = request.form["product_id"]
+        quantity = request.form["quantity"]
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        try:
+            # Check if product_id exists in the products table
+            cursor.execute("SELECT Product_ID FROM products WHERE Product_ID = %s", (product_id,))
+            if not cursor.fetchone():
+                return "Error: Product ID does not exist. Please add the product first."
+
+            sql = "INSERT INTO order_items (Order_ID, Product_ID, quantity) VALUES (%s, %s, %s)"
+            cursor.execute(sql, (order_id, product_id, quantity))
+            conn.commit()
+        except mysql.connector.Error as err:
+            print(f"Error: {err}")
+            conn.rollback() # Rollback changes if an error occurs
+            return f"Error adding order item: {err}" # Return error message to user
+        finally:
+            cursor.close()
+            conn.close()
+        return redirect(url_for("dashboard"))
+    return render_template("form.html")
+
+# ---------------- EDIT ORDER ITEM ROUTE ----------------
+@app.route("/edit/<string:order_id>/<string:product_id>", methods=["GET", "POST"])
+def edit(order_id, product_id):
+    """
+    Handles editing an existing order item.
+    - Requires admin session. If not logged in, redirects to login.
+    - GET: Renders the edit form (edit.html) with existing data.
+    - POST: Updates order item data in the database.
+    - order_id: The ID of the order to be edited.
+    - product_id: The ID of the product within the order to be edited.
+    """
+    if not session.get("admin"):
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True) # Return rows as dictionaries
+
+    if request.method == "POST":
+        quantity = request.form["quantity"]
+
+        try:
+            sql = "UPDATE order_items SET quantity = %s WHERE Order_ID = %s AND Product_ID = %s"
+            cursor.execute(sql, (quantity, order_id, product_id))
+            conn.commit()
+        except mysql.connector.Error as err:
+            print(f"Error updating order item: {err}")
+            conn.rollback()
+        finally:
+            cursor.close()
+            conn.close()
+        return redirect(url_for("dashboard"))
+
+    # GET request: Fetch existing data to populate the form
+    sql_query = """
+        SELECT oi.Order_ID, oi.Product_ID, p.name, p.bin_number, oi.quantity, oi.created_at
+        FROM order_items oi
+        JOIN products p ON oi.Product_ID = p.Product_ID
+        WHERE oi.Order_ID = %s AND oi.Product_ID = %s
+    """
+    cursor.execute(sql_query, (order_id, product_id))
+    order_item = cursor.fetchone()
+    cursor.close()
+    conn.close()
+
+    if order_item is None:
+        return "Order item not found.", 404
+    return render_template("edit.html", order_item=order_item)
+
+# ---------------- DELETE ORDER ITEM ROUTE ----------------
+@app.route("/delete/<string:order_id>/<string:product_id>")
+def delete(order_id, product_id):
+    """
+    Deletes an order item from the database based on Order_ID and Product_ID.
+    - Requires admin session. If not logged in, redirects to login.
+    - order_id: The ID of the order item to be deleted.
+    - product_id: The ID of the product within the order item to be deleted.
+    """
+    if not session.get("admin"):
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("DELETE FROM order_items WHERE Order_ID = %s AND Product_ID = %s", (order_id, product_id))
+        conn.commit()
+    except mysql.connector.Error as err:
+        print(f"Error deleting order item: {err}")
+        conn.rollback()
+    finally:
+        cursor.close()
+        conn.close()
+    return redirect(url_for("dashboard"))
+
+# ---------------- EXPORT CSV ROUTE ----------------
+@app.route("/export_csv")
+def export_csv():
+    """
+    Exports all order details to a CSV file.
+    - Requires admin session. If not logged in, redirects to login.
+    """
+    if not session.get("admin"):
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    sql_query = """
+        SELECT oi.Order_ID, oi.Product_ID, p.name, p.bin_number, oi.quantity, oi.created_at
+        FROM order_items oi
+        JOIN products p ON oi.Product_ID = p.Product_ID
+        ORDER BY oi.created_at DESC
+    """
+    cursor.execute(sql_query)
+    order_details = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    si = StringIO()
+    cw = csv.writer(si)
+
+    # Write header
+    cw.writerow(["Order ID", "Product ID", "ชื่อสินค้า", "Bin Number", "จำนวน", "เวลาที่บันทึก"])
+
+    # Write data rows
+    for item in order_details:
+        cw.writerow([
+            item["Order_ID"],
+            item["Product_ID"],
+            item["name"],
+            item["bin_number"],
+            item["quantity"],
+            item["created_at"]
+        ])
+
+    output = make_response(si.getvalue())
+    output.headers["Content-Disposition"] = "attachment; filename=order_details.csv"
+    output.headers["Content-type"] = "text/csv"
+    return output
+
+# ---------------- EXPORT PDF ROUTE ----------------
+@app.route("/export_pdf")
+def export_pdf():
+    """
+    Exports all order details to a PDF file.
+    - Requires admin session. If not logged in, redirects to login.
+    """
+    if not session.get("admin"):
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    sql_query = """
+        SELECT oi.Order_ID, oi.Product_ID, p.name, p.bin_number, oi.quantity, oi.created_at
+        FROM order_items oi
+        JOIN products p ON oi.Product_ID = p.Product_ID
+        ORDER BY oi.created_at DESC
+    """
+    cursor.execute(sql_query)
+    order_details = cursor.fetchall()
+    cursor.close()
+    conn.close()
+
+    # Render the HTML template for PDF
+    html = render_template("pdf_template.html", order_details=order_details)
+
+    # Convert HTML to PDF
+    result_file = BytesIO()
+    pisa_status = pisa.CreatePDF(
+        BytesIO(html.encode("UTF-8")),   # the HTML to convert
+        dest=result_file,                # file handle to receive result
+        encoding='UTF-8'
+    )
+
+    if pisa_status.err:
+        return "We had some errors <pre>%s</pre>" % html
+
+    result_file.seek(0)
+    return Response(result_file.read(),
+                    mimetype="application/pdf",
+                    headers={"Content-Disposition": "attachment;filename=order_details.pdf"})
+
+# ---------------- PRODUCT MANAGEMENT ROUTES ----------------
+
+@app.route("/products_dashboard", methods=["GET", "POST"])
+def products_dashboard():
+    """
+    Displays the dashboard for managing products.
+    - Requires admin session. If not logged in, redirects to login.
+    - Supports searching by Product_ID or product name.
+    """
+    if not session.get("admin"):
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    search_query = ""
+    if request.method == "POST":
+        search_query = request.form.get("search", "")
+
+    if search_query:
+        sql_query = "SELECT * FROM products WHERE Product_ID LIKE %s OR name LIKE %s ORDER BY Product_ID DESC"
+        cursor.execute(sql_query, (f"%{search_query}%", f"%{search_query}%"))
+    else:
+        cursor.execute("SELECT * FROM products ORDER BY Product_ID DESC")
+
+    products = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template("products_dashboard.html", products=products, search=search_query)
+
+@app.route("/products/add", methods=["GET", "POST"])
+def add_product():
+    """
+    Handles adding a new product to the database.
+    - Requires admin session. If not logged in, redirects to login.
+    - GET: Renders the add product form (add_product.html).
+    - POST: Inserts new product data.
+    """
+    if not session.get("admin"):
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+        product_id = request.form["product_id"]
+        name = request.form["name"]
+        bin_number = request.form["bin_number"] # Use bin_number directly from the form
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        try:
+            sql = "INSERT INTO products (Product_ID, name, bin_number) VALUES (%s, %s, %s)"
+            cursor.execute(sql, (product_id, name, bin_number))
+            conn.commit()
+        except mysql.connector.Error as err:
+            print(f"Error adding product: {err}")
+            conn.rollback()
+            return f"Error adding product: {err}"
+        finally:
+            cursor.close()
+            conn.close()
+        return redirect(url_for("products_dashboard"))
+    return render_template("add_product.html")
+
+@app.route("/products/edit/<string:product_id>", methods=["GET", "POST"])
+def edit_product(product_id):
+    """
+    Handles editing an existing product.
+    - Requires admin session. If not logged in, redirects to login.
+    - GET: Renders the edit product form (edit_product.html) with existing data.
+    - POST: Updates product data in the database.
+    - product_id: The ID of the product to be edited.
+    """
+    if not session.get("admin"):
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    if request.method == "POST":
+        name = request.form["name"]
+        bin_number = request.form["bin_number"]
+
+        try:
+            sql = "UPDATE products SET name = %s, bin_number = %s WHERE Product_ID = %s"
+            cursor.execute(sql, (name, bin_number, product_id))
+            conn.commit()
+        except mysql.connector.Error as err:
+            print(f"Error updating product: {err}")
+            conn.rollback()
+        finally:
+            cursor.close()
+            conn.close()
+        return redirect(url_for("products_dashboard"))
+
+    cursor.execute("SELECT * FROM products WHERE Product_ID = %s", (product_id,))
+    product = cursor.fetchone()
+    cursor.close()
+    conn.close()
+    return render_template("edit_product.html", product=product)
+
+@app.route("/products/delete/<string:product_id>")
+def delete_product(product_id):
+    """
+    Deletes a product from the database based on its Product_ID.
+    - Requires admin session. If not logged in, redirects to login.
+    - product_id: The ID of the product to be deleted.
+    """
+    if not session.get("admin"):
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        # Before deleting a product, check if it exists in order_items
+        cursor.execute("SELECT COUNT(*) FROM order_items WHERE Product_ID = %s", (product_id,))
+        if cursor.fetchone()[0] > 0:
+            return "Error: Cannot delete product because it is associated with existing order items. Please delete related order items first."
+
+        cursor.execute("DELETE FROM products WHERE Product_ID = %s", (product_id,))
+        conn.commit()
+    except mysql.connector.Error as err:
+        print(f"Error deleting product: {err}")
+        conn.rollback()
+        return f"Error deleting product: {err}"
+    finally:
+        cursor.close()
+        conn.close()
+    return redirect(url_for("products_dashboard"))
+
+# ---------------- MAIN EXECUTION BLOCK ----------------
+if __name__ == "__main__":
+    app.run(debug=True)
+                </code></pre>
+            </div>
+
+            <h3 id="app-py-table">คำอธิบาย `app.py`</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>คำสั่ง (Code English Equivalent)</th>
+                        <th>คำอธิบาย (Thai Explanation)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>from flask import Flask, render_template, request, redirect, url_for, session, Response, make_response</code></td>
+                        <td><strong>นำเข้าโมดูลที่จำเป็น</strong>: ดึงฟังก์ชันและคลาสต่างๆ จากไลบรารี Flask และอื่นๆ มาใช้งาน เช่น <code>Flask</code> สำหรับสร้างแอป, <code>render_template</code> สำหรับแสดงไฟล์ HTML, <code>request</code> สำหรับจัดการข้อมูลที่ส่งมาจากฟอร์ม, <code>redirect</code> สำหรับเปลี่ยนเส้นทาง URL, <code>url_for</code> สำหรับสร้าง URL, <code>session</code> สำหรับจัดการข้อมูลเซสชันของผู้ใช้, <code>Response</code> และ <code>make_response</code> สำหรับสร้างการตอบกลับ HTTP</td>
+                    </tr>
+                    <tr>
+                        <td><code>from xhtml2pdf import pisa</code></td>
+                        <td><strong>นำเข้า PISA</strong>: นำเข้าไลบรารี <code>pisa</code> เพื่อใช้ในการแปลง HTML เป็นไฟล์ PDF</td>
+                    </tr>
+                    <tr>
+                        <td><code>import mysql.connector</code></td>
+                        <td><strong>นำเข้า MySQL Connector</strong>: นำเข้าไลบรารีสำหรับเชื่อมต่อกับฐานข้อมูล MySQL</td>
+                    </tr>
+                    <tr>
+                        <td><code>import csv</code></td>
+                        <td><strong>นำเข้า CSV</strong>: นำเข้าไลบรารีสำหรับทำงานกับไฟล์ CSV (Comma Separated Values)</td>
+                    </tr>
+                    <tr>
+                        <td><code>from io import StringIO, BytesIO</code></td>
+                        <td><strong>นำเข้า IO Operations</strong>: นำเข้าโมดูล <code>StringIO</code> และ <code>BytesIO</code> จากไลบรารี <code>io</code> เพื่อจัดการข้อมูลในหน่วยความจำเสมือนไฟล์ (ใช้สำหรับสร้างไฟล์ CSV/PDF ชั่วคราว)</td>
+                    </tr>
+                    <tr>
+                        <td><code>app = Flask(__name__)</code></td>
+                        <td><strong>สร้างวัตถุ Flask</strong>: สร้างอินสแตนซ์ของแอปพลิเคชัน Flask</td>
+                    </tr>
+                    <tr>
+                        <td><code>app.secret_key = 'your-secret-key'</code></td>
+                        <td><strong>กำหนด Secret Key</strong>: ตั้งค่าคีย์ลับสำหรับจัดการเซสชัน (session) ของผู้ใช้ เพื่อความปลอดภัย ควรเปลี่ยนเป็นคีย์ที่ซับซ้อนและไม่ซ้ำใครในการใช้งานจริง</td>
+                    </tr>
+                    <tr>
+                        <td><code>def get_db_connection():</code></td>
+                        <td><strong>ฟังก์ชันเชื่อมต่อฐานข้อมูล</strong>: สร้างฟังก์ชันที่ใช้สำหรับเชื่อมต่อกับฐานข้อมูล MySQL โดยระบุ <code>host</code>, <code>user</code>, <code>password</code> และ <code>database</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>@app.route("/login", methods=["GET", "POST"])</code></td>
+                        <td><strong>กำหนดเส้นทาง Login</strong>: กำหนด URL <code>/login</code> สำหรับหน้าเข้าสู่ระบบ และอนุญาตให้รองรับทั้งวิธีการร้องขอแบบ GET (แสดงหน้าฟอร์ม) และ POST (ส่งข้อมูลเพื่อเข้าสู่ระบบ)</td>
+                    </tr>
+                    <tr>
+                        <td><code>if request.method == "POST":</code></td>
+                        <td><strong>ตรวจสอบวิธีการร้องขอ</strong>: ตรวจสอบว่าข้อมูลถูกส่งมาด้วยวิธีการ POST หรือไม่ (คือมีการกดปุ่ม Submit ฟอร์ม)</td>
+                    </tr>
+                    <tr>
+                        <td><code>username = request.form["username"]</code></td>
+                        <td><strong>ดึงข้อมูล Username</strong>: รับค่า <code>username</code> ที่ผู้ใช้กรอกในฟอร์ม</td>
+                    </tr>
+                    <tr>
+                        <td><code>session["admin"] = True</code></td>
+                        <td><strong>ตั้งค่า Admin Session</strong>: หากเข้าสู่ระบบสำเร็จ จะกำหนดค่า <code>admin</code> ในเซสชันเป็น <code>True</code> เพื่อบ่งชี้ว่าผู้ใช้เป็นผู้ดูแลระบบ</td>
+                    </tr>
+                    <tr>
+                        <td><code>return redirect(url_for("dashboard"))</code></td>
+                        <td><strong>เปลี่ยนเส้นทางไปยัง Dashboard</strong>: นำผู้ใช้ไปยังหน้า Dashboard หลังจากการเข้าสู่ระบบสำเร็จ</td>
+                    </tr>
+                    <tr>
+                        <td><code>@app.route("/logout")</code></td>
+                        <td><strong>กำหนดเส้นทาง Logout</strong>: กำหนด URL <code>/logout</code> สำหรับออกจากระบบ</td>
+                    </tr>
+                    <tr>
+                        <td><code>session.pop("admin", None)</code></td>
+                        <td><strong>ล้าง Admin Session</strong>: ลบค่า <code>admin</code> ออกจากเซสชัน ทำให้ผู้ใช้ไม่ได้อยู่ในสถานะผู้ดูแลระบบอีกต่อไป</td>
+                    </tr>
+                    <tr>
+                        <td><code>@app.route("/")</code></td>
+                        <td><strong>กำหนดเส้นทางหน้าหลัก</strong>: กำหนด URL <code>/</code> (หน้าแรก) โดยจะเปลี่ยนเส้นทางไปยัง <code>dashboard</code> หากเข้าสู่ระบบแล้ว</td>
+                    </tr>
+                    <tr>
+                        <td><code>@app.route("/dashboard", methods=["GET", "POST"])</code></td>
+                        <td><strong>กำหนดเส้นทาง Dashboard</strong>: กำหนด URL <code>/dashboard</code> สำหรับหน้าแสดงรายการคำสั่งซื้อทั้งหมด</td>
+                    </tr>
+                    <tr>
+                        <td><code>cursor.execute(...)</code></td>
+                        <td><strong>ประมวลผลคำสั่ง SQL</strong>: ใช้ <code>cursor</code> (ตัวจัดการการทำงานกับฐานข้อมูล) ในการรันคำสั่ง SQL</td>
+                    </tr>
+                    <tr>
+                        <td><code>cursor.fetchall()</code></td>
+                        <td><strong>ดึงข้อมูลทั้งหมด</strong>: ดึงผลลัพธ์ทั้งหมดจากคำสั่ง SQL ที่รันไปแล้ว</td>
+                    </tr>
+                    <tr>
+                        <td><code>render_template("dashboard.html", ...)</code></td>
+                        <td><strong>แสดงผล Template</strong>: แสดงผลไฟล์ HTML ชื่อ <code>dashboard.html</code> พร้อมส่งข้อมูลที่จำเป็นไปแสดงผลในหน้าเว็บ</td>
+                    </tr>
+                    <tr>
+                        <td><code>conn.commit()</code></td>
+                        <td><strong>บันทึกการเปลี่ยนแปลง</strong>: ยืนยันการเปลี่ยนแปลงข้อมูลในฐานข้อมูล (เช่น การเพิ่ม, แก้ไข, ลบ)</td>
+                    </tr>
+                    <tr>
+                        <td><code>conn.rollback()</code></td>
+                        <td><strong>ย้อนกลับการเปลี่ยนแปลง</strong>: ยกเลิกการเปลี่ยนแปลงข้อมูลในฐานข้อมูล หากเกิดข้อผิดพลาด</td>
+                    </tr>
+                    <tr>
+                        <td><code>try...except...finally</code></td>
+                        <td><strong>จัดการข้อผิดพลาด</strong>: โครงสร้างสำหรับจัดการข้อผิดพลาด (Error Handling) โดย <code>try</code> คือโค้ดที่อาจเกิดข้อผิดพลาด, <code>except</code> คือส่วนที่ทำงานเมื่อเกิดข้อผิดพลาด, และ <code>finally</code> คือส่วนที่ทำงานเสมอไม่ว่าจะเกิดข้อผิดพลาดหรือไม่ก็ตาม</td>
+                    </tr>
+                    <tr>
+                        <td><code>@app.route("/add", methods=["GET", "POST"])</code></td>
+                        <td><strong>กำหนดเส้นทางเพิ่มรายการคำสั่งซื้อ</strong>: กำหนด URL <code>/add</code> สำหรับเพิ่มข้อมูลรายการคำสั่งซื้อใหม่</td>
+                    </tr>
+                    <tr>
+                        <td><code>@app.route("/products/add", methods=["GET", "POST"])</code></td>
+                        <td><strong>กำหนดเส้นทางเพิ่มสินค้าใหม่</strong>: กำหนด URL <code>/products/add</code> สำหรับเพิ่มข้อมูลสินค้าใหม่</td>
+                    </tr>
+                    <tr>
+                        <td><code>@app.route("/edit/&lt;string:order_id&gt;/&lt;string:product_id&gt;", methods=["GET", "POST"])</code></td>
+                        <td><strong>กำหนดเส้นทางแก้ไขรายการคำสั่งซื้อ</strong>: กำหนด URL <code>/edit/order_id/product_id</code> สำหรับแก้ไขข้อมูลรายการคำสั่งซื้อเฉพาะรายการ</td>
+                    </tr>
+                    <tr>
+                        <td><code>@app.route("/products/edit/&lt;string:product_id&gt;", methods=["GET", "POST"])</code></td>
+                        <td><strong>กำหนดเส้นทางแก้ไขสินค้า</strong>: กำหนด URL <code>/products/edit/product_id</code> สำหรับแก้ไขข้อมูลสินค้าเฉพาะรายการ</td>
+                    </tr>
+                    <tr>
+                        <td><code>@app.route("/delete/&lt;string:order_id&gt;/&lt;string:product_id&gt;")</code></td>
+                        <td><strong>กำหนดเส้นทางลบรายการคำสั่งซื้อ</strong>: กำหนด URL <code>/delete/order_id/product_id</code> สำหรับลบข้อมูลรายการคำสั่งซื้อเฉพาะรายการ</td>
+                    </tr>
+                    <tr>
+                        <td><code>@app.route("/products/delete/&lt;string:product_id&gt;")</code></td>
+                        <td><strong>กำหนดเส้นทางลบสินค้า</strong>: กำหนด URL <code>/products/delete/product_id</code> สำหรับลบข้อมูลสินค้าเฉพาะรายการ</td>
+                    </tr>
+                    <tr>
+                        <td><code>@app.route("/export_csv")</code></td>
+                        <td><strong>กำหนดเส้นทาง Export CSV</strong>: กำหนด URL <code>/export_csv</code> สำหรับส่งออกข้อมูล Dashboard เป็นไฟล์ CSV</td>
+                    </tr>
+                    <tr>
+                        <td><code>Response(...)</code></td>
+                        <td><strong>สร้างการตอบกลับ HTTP</strong>: ใช้สำหรับสร้างการตอบกลับไปยังเบราว์เซอร์ โดยกำหนดประเภทเนื้อหา (Content-Type) และส่วนหัว (Headers) เช่น <code>Content-Disposition</code> สำหรับการดาวน์โหลดไฟล์</td>
+                    </tr>
+                    <tr>
+                        <td><code>@app.route("/export_pdf")</code></td>
+                        <td><strong>กำหนดเส้นทาง Export PDF</strong>: กำหนด URL <code>/export_pdf</code> สำหรับส่งออกข้อมูล Dashboard เป็นไฟล์ PDF</td>
+                    </tr>
+                    <tr>
+                        <td><code>pisa.CreatePDF(...)</code></td>
+                        <td><strong>สร้าง PDF</strong>: ใช้ฟังก์ชันจากไลบรารี <code>pisa</code> เพื่อแปลงเนื้อหา HTML (ที่ได้จาก <code>render_template</code> และอ่านจาก <code>BytesIO</code>) ไปเป็นไฟล์ PDF</td>
+                    </tr>
+                    <tr>
+                        <td><code>if __name__ == "__main__":</code></td>
+                        <td><strong>บล็อกการทำงานหลัก</strong>: โค้ดในบล็อกนี้จะทำงานเมื่อไฟล์ <code>app.py</code> ถูกรันโดยตรง (ไม่ใช่ถูก import เป็นโมดูล)</td>
+                    </tr>
+                    <tr>
+                        <td><code>app.run(debug=True)</code></td>
+                        <td><strong>รันแอปพลิเคชัน Flask</strong>: เริ่มต้นเว็บเซิร์ฟเวอร์ของ Flask โดย <code>debug=True</code> จะช่วยให้เห็นข้อผิดพลาดและรีโหลดแอปพลิเคชันอัตโนมัติเมื่อมีการเปลี่ยนแปลงโค้ด (ไม่ควรใช้ใน Production)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr>
+
+        <div class="code-section" id="sql-txt">
+            <h2 id="sql-txt-heading">2. `sql.txt` (ไฟล์คำสั่ง SQL)</h2>
+            <p>ไฟล์นี้ประกอบด้วยคำสั่ง SQL ที่ใช้ในการสร้างตารางและใส่ข้อมูลเริ่มต้นในฐานข้อมูล</p>
+
+            <h3 id="sql-txt-code">โค้ด `sql.txt`</h3>
+            <div class="code-box">
+                <pre><code>
+-- 🧹 ล้างข้อมูลเดิม (สร้างโฟลเดอร์ใหม่จำลองโดยล้างตารางเก่า)
+DROP VIEW IF EXISTS VIEW_order_details;
+DROP TABLE IF EXISTS order_details;
+DROP TABLE IF EXISTS order_items;
+DROP TABLE IF EXISTS products;
+
+-- 🟦 ตารางที่ 1: products
+CREATE TABLE products (
+  Product_ID VARCHAR(13) PRIMARY KEY,
+  name VARCHAR(100),
+  bin_number INT
+);
+
+INSERT INTO products (Product_ID, name, bin_number) VALUES
+('1001001001001', 'Bottle', 1),
+('1001001001002', 'Snack', 2),
+('1001001001003', 'Lunchbox', 3);
+
+-- 🟥 ตารางที่ 2: order_items
+CREATE TABLE order_items (
+  Order_ID VARCHAR(13),
+  Product_ID VARCHAR(13),
+  quantity INT,
+  created_at TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP(6),
+  PRIMARY KEY (Order_ID, Product_ID),
+  FOREIGN KEY (Product_ID) REFERENCES products(Product_ID)
+);
+
+INSERT INTO order_items (Order_ID, Product_ID, quantity, created_at) VALUES
+('9009009009001', '1001001001001', 5, '2025-07-07 13:45:02.123456'),
+('9009009009001', '1001001001002', 3, '2025-07-07 13:45:02.123456'),
+('9009009009002', '1001001001001', 7, '2025-07-07 14:00:00.654321');
+
+-- 🟩 สร้าง View สำหรับการดูข้อมูลรวม
+CREATE VIEW VIEW_order_details AS
+SELECT
+    oi.Order_ID,
+    oi.Product_ID,
+    p.name,
+    p.bin_number,
+    oi.quantity,
+    oi.created_at
+FROM
+    order_items oi
+JOIN
+    products p ON oi.Product_ID = p.Product_ID;
+                </code></pre>
+            </div>
+
+            <h3 id="sql-txt-table">คำอธิบาย `sql.txt`</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>คำสั่ง (Code English Equivalent)</th>
+                        <th>คำอธิบาย (Thai Explanation)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>DROP VIEW IF EXISTS VIEW_order_details;</code></td>
+                        <td><strong>ลบ View เก่า</strong>: ลบ VIEW ชื่อ <code>VIEW_order_details</code> หากมีอยู่แล้ว เพื่อเตรียมสร้างใหม่</td>
+                    </tr>
+                    <tr>
+                        <td><code>DROP TABLE IF EXISTS order_details;</code></td>
+                        <td><strong>ลบตารางเก่า</strong>: ลบตารางชื่อ <code>order_details</code> หากมีอยู่แล้ว (ในโค้ด Flask จะใช้ JOIN แทนการสร้างตารางนี้)</td>
+                    </tr>
+                    <tr>
+                        <td><code>DROP TABLE IF EXISTS order_items;</code></td>
+                        <td><strong>ลบตารางเก่า</strong>: ลบตารางชื่อ <code>order_items</code> หากมีอยู่แล้ว</td>
+                    </tr>
+                    <tr>
+                        <td><code>DROP TABLE IF EXISTS products;</code></td>
+                        <td><strong>ลบตารางเก่า</strong>: ลบตารางชื่อ <code>products</code> หากมีอยู่แล้ว</td>
+                    </tr>
+                    <tr>
+                        <td><code>CREATE TABLE products (...)</code></td>
+                        <td><strong>สร้างตาราง Products</strong>: สร้างตารางชื่อ <code>products</code> สำหรับเก็บข้อมูลสินค้า</td>
+                    </tr>
+                    <tr>
+                        <td><code>Product_ID VARCHAR(13) PRIMARY KEY</code></td>
+                        <td><strong>กำหนด Primary Key</strong>: กำหนดคอลัมน์ <code>Product_ID</code> เป็น Primary Key (คีย์หลัก) ที่ไม่ซ้ำกันสำหรับแต่ละสินค้า และมีชนิดข้อมูลเป็น VARCHAR ความยาว 13 ตัวอักษร</td>
+                    </tr>
+                    <tr>
+                        <td><code>name VARCHAR(100)</code></td>
+                        <td><strong>กำหนดชื่อสินค้า</strong>: คอลัมน์สำหรับเก็บชื่อสินค้า เป็น VARCHAR ความยาว 100 ตัวอักษร</td>
+                    </tr>
+                    <tr>
+                        <td><code>bin_number INT</code></td>
+                        <td><strong>กำหนด Bin Number</strong>: คอลัมน์สำหรับเก็บหมายเลขช่องจัดเก็บสินค้า เป็นชนิดข้อมูล INT (จำนวนเต็ม)</td>
+                    </tr>
+                    <tr>
+                        <td><code>INSERT INTO products (...) VALUES (...)</code></td>
+                        <td><strong>ใส่ข้อมูลเริ่มต้น</strong>: เพิ่มข้อมูลตัวอย่างสินค้าลงในตาราง <code>products</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>CREATE TABLE order_items (...)</code></td>
+                        <td><strong>สร้างตาราง Order Items</strong>: สร้างตารางชื่อ <code>order_items</code> สำหรับเก็บรายการสินค้าในแต่ละคำสั่งซื้อ</td>
+                    </tr>
+                    <tr>
+                        <td><code>Order_ID VARCHAR(13)</code></td>
+                        <td><strong>กำหนด Order ID</strong>: คอลัมน์สำหรับเก็บรหัสคำสั่งซื้อ เป็น VARCHAR ความยาว 13 ตัวอักษร</td>
+                    </tr>
+                    <tr>
+                        <td><code>Product_ID VARCHAR(13)</code></td>
+                        <td><strong>กำหนด Product ID</strong>: คอลัมน์สำหรับเก็บรหัสสินค้า เป็น VARCHAR ความยาว 13 ตัวอักษร</td>
+                    </tr>
+                    <tr>
+                        <td><code>quantity INT</code></td>
+                        <td><strong>กำหนด Quantity</strong>: คอลัมน์สำหรับเก็บจำนวนสินค้าที่สั่ง เป็น INT</td>
+                    </tr>
+                    <tr>
+                        <td><code>created_at TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP(6)</code></td>
+                        <td><strong>กำหนดเวลาสร้าง</strong>: คอลัมน์สำหรับบันทึกเวลาที่สร้างรายการคำสั่งซื้อ โดยมีค่าเริ่มต้นเป็นเวลาปัจจุบัน (ละเอียดถึง microseconds)</td>
+                    </tr>
+                    <tr>
+                        <td><code>PRIMARY KEY (Order_ID, Product_ID)</code></td>
+                        <td><strong>กำหนด Composite Primary Key</strong>: กำหนดให้ <code>Order_ID</code> และ <code>Product_ID</code> ร่วมกันเป็น Primary Key (หมายความว่าในหนึ่งคำสั่งซื้อ จะมีสินค้าชนิดเดียวกันได้เพียงหนึ่งรายการเท่านั้น)</td>
+                    </tr>
+                    <tr>
+                        <td><code>FOREIGN KEY (Product_ID) REFERENCES products(Product_ID)</code></td>
+                        <td><strong>กำหนด Foreign Key</strong>: กำหนดให้ <code>Product_ID</code> ในตาราง <code>order_items</code> เป็น Foreign Key ที่อ้างอิงถึง <code>Product_ID</code> ในตาราง <code>products</code> เพื่อคงความสัมพันธ์ของข้อมูล</td>
+                    </tr>
+                    <tr>
+                        <td><code>INSERT INTO order_items (...) VALUES (...)</code></td>
+                        <td><strong>ใส่ข้อมูลเริ่มต้น</strong>: เพิ่มข้อมูลตัวอย่างรายการคำสั่งซื้อลงในตาราง <code>order_items</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>CREATE VIEW VIEW_order_details AS ...</code></td>
+                        <td><strong>สร้าง VIEW</strong>: สร้าง VIEW ชื่อ <code>VIEW_order_details</code> ซึ่งเป็นตารางเสมือนที่รวมข้อมูลจากตาราง <code>order_items</code> และ <code>products</code> เข้าด้วยกัน โดยใช้คำสั่ง <code>JOIN</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>SELECT oi.Order_ID, oi.Product_ID, p.name, p.bin_number, oi.quantity, oi.created_at</code></td>
+                        <td><strong>เลือกคอลัมน์</strong>: เลือกคอลัมน์ที่ต้องการจากทั้งสองตาราง (ใช้ alias <code>oi</code> สำหรับ <code>order_items</code> และ <code>p</code> สำหรับ <code>products</code>)</td>
+                    </tr>
+                    <tr>
+                        <td><code>FROM order_items oi JOIN products p ON oi.Product_ID = p.Product_ID</code></td>
+                        <td><strong>รวมตารางด้วย JOIN</strong>: รวมข้อมูลจากตาราง <code>order_items</code> และ <code>products</code> โดยจับคู่แถวที่มี <code>Product_ID</code> เหมือนกัน</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <hr>
+
+        <div class="code-section" id="html-templates">
+            <h2 id="html-intro">3. ไฟล์ HTML (Templates)</h2>
+            <p>ไฟล์เหล่านี้คือหน้าเว็บที่ผู้ใช้มองเห็นและโต้ตอบด้วย</p>
+
+            <div class="code-section" id="login-html">
+                <h3 id="login-html-heading">3.1 `login.html` (หน้าเข้าสู่ระบบ)</h3>
+                <h4 id="login-html-code">โค้ด `login.html`</h4>
+                <div class="code-box">
+                    <pre><code>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>เข้าสู่ระบบ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container mt-4">
+    <h1 class="mb-4">เข้าสู่ระบบผู้ดูแล</h1>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Username:</label>
+            <input type="text" name="username" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Password:</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button>
+    </form>
+</body>
+
+</html>
+                    </code></pre>
+                </div>
+                <h4 id="login-html-table">คำอธิบาย `login.html`</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>คำสั่ง (Code English Equivalent)</th>
+                            <th>คำอธิบาย (Thai Explanation)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;form method="POST"&gt;</code></td>
+                            <td><strong>ฟอร์มสำหรับส่งข้อมูล</strong>: กำหนดฟอร์มที่จะส่งข้อมูลไปยังเซิร์ฟเวอร์ด้วยวิธีการ POST</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;label for="username" ...&gt;</code></td>
+                            <td><strong>ป้ายกำกับช่องกรอก</strong>: ป้ายกำกับสำหรับช่องกรอกข้อมูล <code>username</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="text" name="username" ...&gt;</code></td>
+                            <td><strong>ช่องกรอกข้อความ</strong>: ช่องสำหรับกรอกชื่อผู้ใช้ (<code>username</code>)</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="password" name="password" ...&gt;</code></td>
+                            <td><strong>ช่องกรอกรหัสผ่าน</strong>: ช่องสำหรับกรอกรหัสผ่าน (<code>password</code>) ซึ่งข้อมูลจะถูกซ่อน</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;button type="submit" ...&gt;</code></td>
+                            <td><strong>ปุ่มส่งฟอร์ม</strong>: ปุ่มสำหรับกดเพื่อส่งข้อมูลในฟอร์ม</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="code-section" id="dashboard-html">
+                <h3 id="dashboard-html-heading">3.2 `dashboard.html` (หน้า Dashboard รายการคำสั่งซื้อ)</h3>
+                <h4 id="dashboard-html-code">โค้ด `dashboard.html`</h4>
+                <div class="code-box">
+                    <pre><code>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+    <h1 class="mb-4">📊 Dashboard รายการคำสั่งซื้อ</h1>
+
+    <div class="mb-3">
+        <a href="/" class="btn btn-success">➕ เพิ่มข้อมูลรายการคำสั่งซื้อ</a>
+        <a href="{{ url_for('products_dashboard') }}" class="btn btn-primary">📦 จัดการสินค้า</a> {# New link to product management dashboard #}
+        <a href="{{ url_for('export_csv') }}" class="btn btn-secondary">📤 Export CSV</a>
+        <a href="{{ url_for('export_pdf') }}" class="btn btn-outline-danger">📄 Export PDF</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger float-end">🚪 ออกจากระบบ</a>
+    </div>
+
+    <form method="POST" class="row g-3 mb-4">
+        <div class="col-auto">
+            <input type="text" name="search" class="form-control" placeholder="🔍 ค้นหา Order ID หรือชื่อสินค้า" value="{{ search }}">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">ค้นหา</button>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Order ID</th>
+                <th>Product ID</th>
+                <th>ชื่อสินค้า</th>
+                <th>Bin Number</th>
+                <th>จำนวน</th>
+                <th>เวลาที่บันทึก</th>
+                <th>แก้ไข</th>
+                <th>ลบ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order_details %}
+            <tr>
+                <td>{{ item.Order_ID }}</td>
+                <td>{{ item.Product_ID }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.bin_number }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.created_at }}</td>
+                <td><a href="{{ url_for('edit', order_id=item.Order_ID, product_id=item.Product_ID) }}" class="btn btn-warning btn-sm">แก้ไข</a></td>
+                <td><a href="{{ url_for('delete', order_id=item.Order_ID, product_id=item.Product_ID) }}" class="btn btn-danger btn-sm" onclick="return confirm('ลบข้อมูลนี้?');">ลบ</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+                    </code></pre>
+                </div>
+                <h4 id="dashboard-html-table">คำอธิบาย `dashboard.html`</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>คำสั่ง (Code English Equivalent)</th>
+                            <th>คำอธิบาย (Thai Explanation)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;a href="/" class="btn btn-success"&gt;➕ เพิ่มข้อมูลรายการคำสั่งซื้อ&lt;/a&gt;</code></td>
+                            <td><strong>ลิงก์เพิ่มข้อมูล</strong>: ปุ่ม/ลิงก์สำหรับนำทางไปยังหน้าเพิ่มข้อมูลรายการคำสั่งซื้อ</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;a href="{{ url_for('products_dashboard') }}" ...&gt;</code></td>
+                            <td><strong>ลิงก์จัดการสินค้า</strong>: ปุ่ม/ลิงก์สำหรับนำทางไปยังหน้าจัดการสินค้า</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;a href="{{ url_for('export_csv') }}" ...&gt;</code></td>
+                            <td><strong>ลิงก์ Export CSV</strong>: ปุ่ม/ลิงก์สำหรับดาวน์โหลดข้อมูลในรูปแบบ CSV</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;a href="{{ url_for('export_pdf') }}" ...&gt;</code></td>
+                            <td><strong>ลิงก์ Export PDF</strong>: ปุ่ม/ลิงก์สำหรับดาวน์โหลดข้อมูลในรูปแบบ PDF</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;a href="{{ url_for('logout') }}" ...&gt;</code></td>
+                            <td><strong>ลิงก์ออกจากระบบ</strong>: ปุ่ม/ลิงก์สำหรับออกจากระบบ</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;form method="POST" ...&gt;</code></td>
+                            <td><strong>ฟอร์มค้นหา</strong>: ฟอร์มสำหรับส่งคำค้นหาข้อมูล</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="text" name="search" ... value="{{ search }}"&gt;</code></td>
+                            <td><strong>ช่องค้นหา</strong>: ช่องสำหรับกรอกคำค้นหา โดยมี <code>value="{{ search }}"</code> เพื่อแสดงคำที่ค้นหาไปแล้ว</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;button type="submit" ...&gt;</code></td>
+                            <td><strong>ปุ่มค้นหา</strong>: ปุ่มสำหรับกดเพื่อส่งคำค้นหา</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;table class="table ..."&gt;</code></td>
+                            <td><strong>ตารางแสดงผล</strong>: ตารางที่ใช้แสดงข้อมูลรายการคำสั่งซื้อ</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;thead&gt;...&lt;/thead&gt;</code></td>
+                            <td><strong>ส่วนหัวตาราง</strong>: กำหนดส่วนหัวของตาราง (ชื่อคอลัมน์)</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;tbody&gt;...&lt;/tbody&gt;</code></td>
+                            <td><strong>ส่วนเนื้อหาตาราง</strong>: กำหนดส่วนเนื้อหาของตาราง (ข้อมูลจริง)</td>
+                        </tr>
+                        <tr>
+                            <td><code>{% for item in order_details %}</code></td>
+                            <td><strong>วนซ้ำแสดงข้อมูล</strong>: ใช้ Jinja2 (ระบบ Template ของ Flask) ในการวนซ้ำแสดงข้อมูลแต่ละรายการในตัวแปร <code>order_details</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;td&gt;{{ item.Order_ID }}&lt;/td&gt;</code></td>
+                            <td><strong>แสดงข้อมูลในเซลล์</strong>: แสดงค่าของ <code>Order_ID</code> สำหรับแต่ละรายการในตาราง</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;td&gt;&lt;a href="{{ url_for('edit', order_id=item.Order_ID, product_id=item.Product_ID) }}" ...&gt;แก้ไข&lt;/a&gt;&lt;/td&gt;</code></td>
+                            <td><strong>ลิงก์แก้ไข</strong>: ปุ่ม/ลิงก์สำหรับแก้ไขข้อมูลรายการนั้นๆ โดยส่ง <code>Order_ID</code> และ <code>Product_ID</code> ไปกับ URL</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;td&gt;&lt;a href="{{ url_for('delete', order_id=item.Order_ID, product_id=item.Product_ID) }}" ... onclick="return confirm('ลบข้อมูลนี้?');"&gt;ลบ&lt;/a&gt;&lt;/td&gt;</code></td>
+                            <td><strong>ลิงก์ลบ</strong>: ปุ่ม/ลิงก์สำหรับลบข้อมูลรายการนั้นๆ พร้อมข้อความยืนยันก่อนลบ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="code-section" id="products-dashboard-html">
+                <h3 id="products-dashboard-html-heading">3.3 `products_dashboard.html` (หน้าจัดการสินค้า)</h3>
+                <p>คล้ายกับ <code>dashboard.html</code> แต่แสดงข้อมูลสินค้าและมีลิงก์สำหรับเพิ่ม/แก้ไข/ลบสินค้า</p>
+                <h4 id="products-dashboard-html-code">โค้ด `products_dashboard.html`</h4>
+                <div class="code-box">
+                    <pre><code>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>จัดการสินค้า</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+    <h1 class="mb-4">📦 จัดการสินค้า</h1>
+
+    <div class="mb-3">
+        <a href="{{ url_for('add_product') }}" class="btn btn-success">➕ เพิ่มสินค้าใหม่</a>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-info">📋 กลับไปที่ Dashboard คำสั่งซื้อ</a>
+        <a href="{{ url_for('logout') }}" class="btn btn-danger float-end">🚪 ออกจากระบบ</a>
+    </div>
+
+    <form method="POST" class="row g-3 mb-4">
+        <div class="col-auto">
+            <input type="text" name="search" class="form-control" placeholder="🔍 ค้นหา Product ID หรือชื่อสินค้า" value="{{ search }}">
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">ค้นหา</button>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Product ID</th>
+                <th>ชื่อสินค้า</th>
+                <th>Bin Number</th>
+                <th>แก้ไข</th>
+                <th>ลบ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.Product_ID }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.bin_number }}</td>
+                <td><a href="{{ url_for('edit_product', product_id=product.Product_ID) }}" class="btn btn-warning btn-sm">แก้ไข</a></td>
+                <td><a href="{{ url_for('delete_product', product_id=product.Product_ID) }}" class="btn btn-danger btn-sm" onclick="return confirm('ลบสินค้า {{ product.name }} นี้?');">ลบ</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+                    </code></pre>
+                </div>
+                <h4 id="products-dashboard-html-table">คำอธิบาย `products_dashboard.html`</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>คำสั่ง (Code English Equivalent)</th>
+                            <th>คำอธิบาย (Thai Explanation)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;a href="{{ url_for('add_product') }}" ...&gt;➕ เพิ่มสินค้าใหม่&lt;/a&gt;</code></td>
+                            <td><strong>ลิงก์เพิ่มสินค้า</strong>: ปุ่ม/ลิงก์สำหรับนำทางไปยังหน้าเพิ่มสินค้าใหม่</td>
+                        </tr>
+                        <tr>
+                            <td><code>{% for product in products %}</code></td>
+                            <td><strong>วนซ้ำแสดงข้อมูลสินค้า</strong>: วนซ้ำแสดงข้อมูลแต่ละรายการในตัวแปร <code>products</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;td&gt;&lt;a href="{{ url_for('edit_product', product_id=product.Product_ID) }}" ...&gt;แก้ไข&lt;/a&gt;&lt;/td&gt;</code></td>
+                            <td><strong>ลิงก์แก้ไขสินค้า</strong>: ปุ่ม/ลิงก์สำหรับแก้ไขข้อมูลสินค้า โดยส่ง <code>Product_ID</code> ไปกับ URL</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;td&gt;&lt;a href="{{ url_for('delete_product', product_id=product.Product_ID) }}" ... onclick="return confirm('ลบสินค้า {{ product.name }} นี้?');"&gt;ลบ&lt;/a&gt;&lt;/td&gt;</code></td>
+                            <td><strong>ลิงก์ลบสินค้า</strong>: ปุ่ม/ลิงก์สำหรับลบข้อมูลสินค้า พร้อมข้อความยืนยันก่อนลบ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="code-section" id="form-html">
+                <h3 id="form-html-heading">3.4 `form.html` (ฟอร์มเพิ่มรายการคำสั่งซื้อ)</h3>
+                <h4 id="form-html-code">โค้ด `form.html`</h4>
+                <div class="code-box">
+                    <pre><code>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>เพิ่มข้อมูลรายการคำสั่งซื้อ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+    <h1 class="mb-4">เพิ่มข้อมูลรายการคำสั่งซื้อ</h1>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="order_id" class="form-label">Order ID:</label>
+            <input type="text" id="order_id" name="order_id" class="form-control" required placeholder="เช่น 9009009009001">
+        </div>
+        <div class="mb-3">
+            <label for="product_id" class="form-label">Product ID:</label>
+            <input type="text" id="product_id" name="product_id" class="form-control" required placeholder="เช่น 1001001001001">
+        </div>
+        <div class="mb-3">
+            <label for="quantity" class="form-label">จำนวน (Quantity):</label>
+            <input type="number" id="quantity" name="quantity" class="form-control" required min="1" placeholder="เช่น 5">
+        </div>
+        <button type="submit" class="btn btn-success">บันทึกรายการคำสั่งซื้อ</button>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">ยกเลิก</a>
+    </form>
+</body>
+</html>
+                    </code></pre>
+                </div>
+                <h4 id="form-html-table">คำอธิบาย `form.html`</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>คำสั่ง (Code English Equivalent)</th>
+                            <th>คำอธิบาย (Thai Explanation)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;input type="text" id="order_id" name="order_id" ... placeholder="เช่น 9009009009001"&gt;</code></td>
+                            <td><strong>ช่องกรอก Order ID</strong>: ช่องสำหรับกรอกรหัสคำสั่งซื้อ พร้อมตัวอย่าง Placeholder</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="text" id="product_id" name="product_id" ... placeholder="เช่น 1001001001001"&gt;</code></td>
+                            <td><strong>ช่องกรอก Product ID</strong>: ช่องสำหรับกรอกรหัสสินค้า พร้อมตัวอย่าง Placeholder</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="number" id="quantity" name="quantity" ... min="1" placeholder="เช่น 5"&gt;</code></td>
+                            <td><strong>ช่องกรอก Quantity</strong>: ช่องสำหรับกรอกจำนวนสินค้าที่สั่ง โดยรับเฉพาะตัวเลขและมีค่าต่ำสุดคือ 1</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;button type="submit" class="btn btn-success"&gt;บันทึกรายการคำสั่งซื้อ&lt;/button&gt;</code></td>
+                            <td><strong>ปุ่มบันทึก</strong>: ปุ่มสำหรับบันทึกข้อมูลรายการคำสั่งซื้อใหม่</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="code-section" id="add-product-html">
+                <h3 id="add-product-html-heading">3.5 `add_product.html` (ฟอร์มเพิ่มสินค้าใหม่)</h3>
+                <p>คล้ายกับ <code>form.html</code> แต่สำหรับเพิ่มสินค้า</p>
+                <h4 id="add-product-html-code">โค้ด `add_product.html`</h4>
+                <div class="code-box">
+                    <pre><code>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>เพิ่มสินค้าใหม่</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container mt-4">
+    <h1 class="mb-4">➕ เพิ่มสินค้าใหม่</h1>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="product_id" class="form-label">Product ID:</label>
+            <input type="text" id="product_id" name="product_id" class="form-control" required
+                placeholder="เช่น 1001001001004">
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">ชื่อสินค้า:</label>
+            <input type="text" id="name" name="name" class="form-control" required placeholder="เช่น Water Bottle">
+        </div>
+        <div class="mb-3">
+            <label for="bin_type" class="form-label">Bin Type:</label>
+            <select name="bin_type" id="bin_type" class="form-control">
+                <option value="1">Volvo</option>
+                <option value="2">Saab</option>
+                <option value="3">Mercedes</option>
+                <option value="4">Audi</option>
+            </select>
+            <input type="number" id="bin_number" name="bin_number" class="form-control" required min="1" placeholder="เช่น 1"> {# Use bin_number directly #}
+        </div>
+        <button type="submit" class="btn btn-success">บันทึกสินค้าใหม่</button>
+        <a href="{{ url_for('products_dashboard') }}" class="btn btn-secondary">ยกเลิก</a>
+    </form>
+</body>
+
+</html>
+                    </code></pre>
+                </div>
+                <h4 id="add-product-html-table">คำอธิบาย `add_product.html`</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>คำสั่ง (Code English Equivalent)</th>
+                            <th>คำอธิบาย (Thai Explanation)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;input type="text" id="product_id" name="product_id" ... placeholder="เช่น 1001001001004"&gt;</code></td>
+                            <td><strong>ช่องกรอก Product ID</strong>: ช่องสำหรับกรอกรหัสสินค้า</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="text" id="name" name="name" ... placeholder="เช่น Water Bottle"&gt;</code></td>
+                            <td><strong>ช่องกรอกชื่อสินค้า</strong>: ช่องสำหรับกรอกชื่อสินค้า</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;select name="bin_type" id="bin_type" class="form-control"&gt; ... &lt;/select&gt;</code></td>
+                            <td><strong>ช่องเลือก Bin Type</strong>: ช่องสำหรับเลือกประเภท Bin (ถังจัดเก็บ) จากรายการตัวเลือก (ในที่นี้แสดงเป็น Volvo, Saab, Mercedes, Audi ซึ่งอาจจะต้องแก้ไขให้ตรงกับข้อมูลจริง)</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="number" id="bin_type" name="bin_number" class="form-control" required min="1"&gt;</code></td>
+                            <td><strong>ช่องกรอก Bin Number</strong>: ช่องสำหรับกรอกหมายเลข Bin โดยรับเฉพาะตัวเลขและมีค่าต่ำสุดคือ 1 (ในไฟล์นี้มีทั้ง <code>&lt;select&gt;</code> และ <code>&lt;input type="number"&gt;</code> สำหรับ Bin Type/Bin Number ซึ่งอาจจะต้องเลือกใช้อย่างใดอย่างหนึ่งหรือปรับแก้ให้เหมาะสม)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="code-section" id="edit-html">
+                <h3 id="edit-html-heading">3.6 `edit.html` (ฟอร์มแก้ไขรายการคำสั่งซื้อ)</h3>
+                <h4 id="edit-html-code">โค้ด `edit.html`</h4>
+                <div class="code-box">
+                    <pre><code>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>แก้ไขข้อมูลรายการคำสั่งซื้อ</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container mt-4">
+    <h1 class="mb-4">แก้ไขข้อมูลรายการคำสั่งซื้อ</h1>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Order ID:</label>
+            <input type="text" name="order_id" value="{{ order_item.Order_ID }}" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Product ID:</label>
+            <input type="text" name="product_id" value="{{ order_item.Product_ID }}" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">ชื่อสินค้า:</label>
+            <input type="text" value="{{ order_item.name }}" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Bin Number:</label>
+            <input type="text" value="{{ order_item.bin_number }}" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">จำนวน (Quantity):</label>
+            <input type="number" name="quantity" value="{{ order_item.quantity }}" class="form-control" required min="1">
+        </div>
+
+        <button type="submit" class="btn btn-success">บันทึกการแก้ไข</button>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">ยกเลิก</a>
+    </form>
+</body>
+
+</html>
+                    </code></pre>
+                </div>
+                <h4 id="edit-html-table">คำอธิบาย `edit.html`</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>คำสั่ง (Code English Equivalent)</th>
+                            <th>คำอธิบาย (Thai Explanation)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;input type="text" name="order_id" value="{{ order_item.Order_ID }}" class="form-control" readonly&gt;</code></td>
+                            <td><strong>ช่องแสดง Order ID (อ่านอย่างเดียว)</strong>: แสดง Order ID โดยไม่สามารถแก้ไขได้ เนื่องจากเป็นส่วนหนึ่งของคีย์หลัก</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="text" name="product_id" value="{{ order_item.Product_ID }}" class="form-control" readonly&gt;</code></td>
+                            <td><strong>ช่องแสดง Product ID (อ่านอย่างเดียว)</strong>: แสดง Product ID โดยไม่สามารถแก้ไขได้ เนื่องจากเป็นส่วนหนึ่งของคีย์หลัก</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="text" value="{{ order_item.name }}" class="form-control" readonly&gt;</code></td>
+                            <td><strong>ช่องแสดงชื่อสินค้า (อ่านอย่างเดียว)</strong>: แสดงชื่อสินค้าเพื่อเป็นข้อมูล ไม่สามารถแก้ไขได้</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="text" value="{{ order_item.bin_number }}" class="form-control" readonly&gt;</code></td>
+                            <td><strong>ช่องแสดง Bin Number (อ่านอย่างเดียว)</strong>: แสดง Bin Number เพื่อเป็นข้อมูล ไม่สามารถแก้ไขได้</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="number" name="quantity" value="{{ order_item.quantity }}" class="form-control" required min="1"&gt;</code></td>
+                            <td><strong>ช่องกรอก Quantity (แก้ไขได้)</strong>: ช่องสำหรับแก้ไขจำนวนสินค้าที่สั่ง</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;button type="submit" class="btn btn-success"&gt;บันทึกการแก้ไข&lt;/button&gt;</code></td>
+                            <td><strong>ปุ่มบันทึกการแก้ไข</strong>: ปุ่มสำหรับบันทึกข้อมูลที่แก้ไขแล้ว</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="code-section" id="edit-product-html">
+                <h3 id="edit-product-html-heading">3.7 `edit_product.html` (ฟอร์มแก้ไขสินค้า)</h3>
+                <p>คล้ายกับ <code>edit.html</code> แต่สำหรับแก้ไขข้อมูลสินค้า</p>
+                <h4 id="edit-product-html-code">โค้ด `edit_product.html`</h4>
+                <div class="code-box">
+                    <pre><code>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>แก้ไขข้อมูลสินค้า</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+    <h1 class="mb-4">✏️ แก้ไขข้อมูลสินค้า</h1>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Product ID:</label>
+            <input type="text" value="{{ product.Product_ID }}" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+            <label for="name" class="form-label">ชื่อสินค้า:</label>
+            <input type="text" id="name" name="name" value="{{ product.name }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="bin_number" class="form-label">Bin Number:</label>
+            <select name="bin_type" id="bin_type" class="form-control">
+                <option value="{{ product.bin_number }}">{{ product.bin_number }}</option>
+                <option value="1">Volvo</option>
+                <option value="2">Saab</option>
+                <option value="3">Mercedes</option>
+                <option value="4">Audi</option>
+            </select>
+            <input type="number" id="bin_number" name="bin_number" value="{{ product.bin_number }}" class="form-control" required min="1">
+        </div>
+
+        <button type="submit" class="btn btn-success">บันทึกการแก้ไข</button>
+        <a href="{{ url_for('products_dashboard') }}" class="btn btn-secondary">ยกเลิก</a>
+    </form>
+</body>
+</html>
+                    </code></pre>
+                </div>
+                <h4 id="edit-product-html-table">คำอธิบาย `edit_product.html`</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>คำสั่ง (Code English Equivalent)</th>
+                            <th>คำอธิบาย (Thai Explanation)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;input type="text" value="{{ product.Product_ID }}" class="form-control" readonly&gt;</code></td>
+                            <td><strong>ช่องแสดง Product ID (อ่านอย่างเดียว)</strong>: แสดง Product ID โดยไม่สามารถแก้ไขได้ เนื่องจากเป็นคีย์หลัก</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="text" id="name" name="name" value="{{ product.name }}" class="form-control" required&gt;</code></td>
+                            <td><strong>ช่องกรอกชื่อสินค้า (แก้ไขได้)</strong>: ช่องสำหรับแก้ไขชื่อสินค้า</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;select name="bin_type" id="bin_type" class="form-control"&gt; ... &lt;/select&gt;</code></td>
+                            <td><strong>ช่องเลือก Bin Number (แก้ไขได้)</strong>: ช่องสำหรับเลือก Bin Number โดยแสดงค่าปัจจุบันของสินค้าเป็นค่าเริ่มต้น และมีตัวเลือกอื่นๆ ให้เลือก</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;input type="number" id="bin_number" name="bin_number" value="{{ product.bin_number }}" class="form-control" required min="1"&gt;</code></td>
+                            <td><strong>ช่องกรอก Bin Number (แก้ไขได้)</strong>: ช่องสำหรับแก้ไขหมายเลข Bin โดยรับเฉพาะตัวเลขและมีค่าต่ำสุดคือ 1 (ในไฟล์นี้มีทั้ง <code>&lt;select&gt;</code> และ <code>&lt;input type="number"&gt;</code> สำหรับ Bin Type/Bin Number ซึ่งอาจจะต้องเลือกใช้อย่างใดอย่างหนึ่งหรือปรับแก้ให้เหมาะสม)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="code-section" id="pdf-template-html">
+                <h3 id="pdf-template-html-heading">3.8 `pdf_template.html` (Template สำหรับสร้าง PDF)</h3>
+                <h4 id="pdf-template-html-code">โค้ด `pdf_template.html`</h4>
+                <div class="code-box">
+                    <pre><code>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>รายงานข้อมูลรายการคำสั่งซื้อ</title>
+    <style>
+        body { font-family: DejaVu Sans, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+        th { background-color: #eee; }
+    </style>
+</head>
+<body>
+    <h2>รายงานข้อมูลรายการคำสั่งซื้อ</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Product ID</th>
+                <th>ชื่อสินค้า</th>
+                <th>Bin Number</th>
+                <th>จำนวน</th>
+                <th>เวลาที่บันทึก</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in order_details %}
+            <tr>
+                <td>{{ item.Order_ID }}</td>
+                <td>{{ item.Product_ID }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.bin_number }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+                    </code></pre>
+                </div>
+                <h4 id="pdf-template-html-table">คำอธิบาย `pdf_template.html`</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>คำสั่ง (Code English Equivalent)</th>
+                            <th>คำอธิบาย (Thai Explanation)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>&lt;style&gt; ... &lt;/style&gt;</code></td>
+                            <td><strong>การกำหนด Style (CSS)</strong>: ส่วนที่ใช้กำหนดรูปแบบการแสดงผลของเอกสาร PDF เช่น font, ขนาดตาราง, เส้นขอบ</td>
+                        </tr>
+                        <tr>
+                            <td><code>body { font-family: DejaVu Sans, sans-serif; }</code></td>
+                            <td><strong>กำหนด Font</strong>: กำหนดฟอนต์สำหรับเอกสาร <code>DejaVu Sans</code> เป็นฟอนต์ที่มักใช้เพื่อรองรับภาษาไทยใน PDF</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;h2&gt;รายงานข้อมูลรายการคำสั่งซื้อ&lt;/h2&gt;</code></td>
+                            <td><strong>หัวข้อรายงาน</strong>: หัวข้อที่จะปรากฏบนเอกสาร PDF</td>
+                        </tr>
+                        <tr>
+                            <td><code>&lt;table&gt; ... &lt;/table&gt;</code></td>
+                            <td><strong>ตารางข้อมูล</strong>: โครงสร้างตารางสำหรับแสดงข้อมูลรายการคำสั่งซื้อใน PDF</td>
+                        </tr>
+                        <tr>
+                            <td><code>{% for item in order_details %}</code></td>
+                            <td><strong>วนซ้ำแสดงข้อมูล</strong>: วนซ้ำแสดงข้อมูลแต่ละรายการใน <code>order_details</code> เพื่อสร้างแถวในตาราง PDF</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
